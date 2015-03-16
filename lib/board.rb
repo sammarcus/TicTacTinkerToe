@@ -51,8 +51,12 @@ class Board
   def make_moves
     actual_input = @player.move
     if validate_move?(actual_input)
-      self.board[actual_input.to_i] = @player.marker
-    binding.pry
+      if self.board[actual_input.to_i] == "X" || self.board[actual_input.to_i] == "O"
+        puts "Space taken"
+      else
+        self.board[actual_input.to_i] = @player.marker
+      end
+    #binding.pry
     else
       "Please enter a number 0 through 8 that is not in a spot that has already been played."
     end
