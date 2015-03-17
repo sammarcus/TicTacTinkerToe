@@ -16,6 +16,17 @@ class Game
     puts "#{self.board[6]} | #{self.board[7]} | #{self.board[8]}"
   end
 
+  def turn_verbiage
+    if @turn_count <= 3
+      puts "Player 1. Enter your move"
+    elsif @turn_count >= 4
+      puts "The game marches forward! Enter your move"
+    else
+      puts "Things are really getting heated Enter your move"
+    end
+  end
+
+
   def get_player_marker
     puts "Welcome to TicTacToe. Are you X or O?"
     marker_input = gets.chomp
@@ -45,34 +56,36 @@ class Game
 
   def play
     make_moves
-    # if win?
   end
-
-  # def check_win
-  #   if @turn_count >= 5
-
-
 
   def win?
-    win_combos.each do |combo|
-      if combo.uniq.count == 1
-        return true
+    if @turn_count >= 5
+      win_combos.each do |combo|
+        if combo.uniq.count == 1
+          if combo.include? "X"
+            puts "X wins!"
+          elsif combo.include? "O"
+            puts "O wins!"
+          end
+          return true
+        end
       end
+      false
     end
-    false
   end
 
-  def win_combos
-    combos = [
-      [@board[0],@board[3],@board[6]],
-      [@board[1],@board[4],@board[7]],
-      [@board[2],@board[5],@board[8]],
-      [@board[0],@board[1],@board[2]],
-      [@board[3],@board[4],@board[5]],
-      [@board[6],@board[7],@board[8]],
-      [@board[0],@board[4],@board[8]],
-      [@board[2],@board[4],@board[6]]]
-  end
+
+    def win_combos
+      combos = [
+        [@board[0],@board[3],@board[6]],
+        [@board[1],@board[4],@board[7]],
+        [@board[2],@board[5],@board[8]],
+        [@board[0],@board[1],@board[2]],
+        [@board[3],@board[4],@board[5]],
+        [@board[6],@board[7],@board[8]],
+        [@board[0],@board[4],@board[8]],
+        [@board[2],@board[4],@board[6]]]
+    end
 
   # def try_again
   #   if @turn_count == 9
@@ -89,18 +102,15 @@ class Game
 
 
   # def tie_game
-  #   if @turn_count<8 &&
+  #   if @turn_count <=8 && win? == false
   #   end
   # end
 
 
   def make_moves
-
-    # if @turn_count >=5
-    #   win?
-    # end
-    while @turn_count <8 && !win?
+    while @turn_count <9 && !win?
       if @turn_count.even?
+        turn_verbiage
         actual_input = @player.move
         if validate_move?(actual_input)
           position = actual_input.to_i
@@ -112,14 +122,14 @@ class Game
             @turn_count+=1
           end
         else
-          "Please enter a number 0 through 8 that is not in a spot that has already been played."
+          puts "Please enter a number 0 through 8 that is not in a spot that has already been played."
         end
       else
         position = self.computer.move
         if self.board.include?(position)
           self.board[position.to_i] = @computer.marker
           puts "FYI Computer played #{position}"
-            show_board
+          show_board
           @turn_count+=1
         else
           @turn_count

@@ -5,7 +5,7 @@ class Player
   end
 
   def move
-    puts "Player 1 start. Enter your position"
+    # puts "Player 1. Enter your move"
     input = gets.chomp.to_s
   end
 
