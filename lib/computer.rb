@@ -4,6 +4,10 @@ class Computer
     @marker = marker
   end
 
+  def move
+    random_move = rand(9)
+  end
+
 
 
 end

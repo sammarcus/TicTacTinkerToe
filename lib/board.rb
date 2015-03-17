@@ -1,7 +1,8 @@
 class Board
-  attr_accessor :board, :player, :computer
+  attr_accessor :board, :player, :computer, :turn_count
   def initialize
     @board = ["0", "1,", "2", "3", "4", "5", "6", "7", "8"]
+    @turn_count = 0
   end
 
 
@@ -49,16 +50,24 @@ class Board
   end
 
   def make_moves
-    actual_input = @player.move
-    if validate_move?(actual_input)
-      if self.board[actual_input.to_i] == "X" || self.board[actual_input.to_i] == "O"
-        puts "Space taken"
+    if @turn_count.even?
+      actual_input = @player.move
+      if validate_move?(actual_input)
+        position = actual_input.to_i
+        if self.board[position] == "X" || self.board[position] == "O"
+          puts "Space taken"
+        else
+          self.board[position] = @player.marker
+          @turn_count+=1
+        end
+      #binding.pry
       else
-        self.board[actual_input.to_i] = @player.marker
+        "Please enter a number 0 through 8 that is not in a spot that has already been played."
       end
-    #binding.pry
     else
-      "Please enter a number 0 through 8 that is not in a spot that has already been played."
+      position = self.computer.move
+      self.board[position] = @computer.marker
+      @turn_count+=1
     end
   end
 
