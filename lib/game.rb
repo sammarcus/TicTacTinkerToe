@@ -45,58 +45,61 @@ class Game
 
   def play
     make_moves
+    # if win?
   end
+
+  # def check_win
+  #   if @turn_count >= 5
+
+
 
   def win?
-    while @turn_count <8
-      if combos.include? self.player.marker
-        @turn_count = 9 && print "You win!"
-      elsif combos.include? computer.player.marker
-        @turn_count = 9 && print "You lose!"
-        try_again
+    win_combos.each do |combo|
+      if combo.uniq.count == 1
+        return true
       end
     end
+    false
   end
 
-  def try_again
-    if @turn_count == 9
-      print "Want to try again? Y/N"
-      input = gets.chomp.to_s
-      if input == "Y"
-        @turn_count = 0
-      end
-    end
+  def win_combos
+    combos = [
+      [@board[0],@board[3],@board[6]],
+      [@board[1],@board[4],@board[7]],
+      [@board[2],@board[5],@board[8]],
+      [@board[0],@board[1],@board[2]],
+      [@board[3],@board[4],@board[5]],
+      [@board[6],@board[7],@board[8]],
+      [@board[0],@board[4],@board[8]],
+      [@board[2],@board[4],@board[6]]]
   end
 
+  # def try_again
+  #   if @turn_count == 9
+  #     print "Want to try again? Y/N"
+  #     input = gets.chomp.to_s
+  #     if input == "Y"
+  #       @turn_count = 0
+  #     else
+  #       print "Thanks for playing."
+  #     end
+  #   end
+  # end
 
 
 
-
-
-    if @board[0] && @board[3] && @board [6] == "X"
-      @turn_count = 9 && print "#{self.player.marker} wins!" && win
-    elsif @board[1] && @board[4] && @board [7] == "X" && win
-      @turn_count = 9 && print "#{self.player.marker} wins!" && win
-    elsif @board[2] && @board[5] && @board [8] == "X" && win
-      @turn_count = 9 && print "#{self.player.marker} wins!" && win
-    else
-      tie_game
-    end
-  end
-end
-
-def win_combos
-  combos = [[0,3,6],[1,4,7],[2,5,8][0,1,2][3,4,5][6,7,8][0,4,8][2,4,6]]
-end
-
-  def tie_game
-    if @turn_count<8 &&
-    end
-  end
+  # def tie_game
+  #   if @turn_count<8 &&
+  #   end
+  # end
 
 
   def make_moves
-    while @turn_count <8
+
+    # if @turn_count >=5
+    #   win?
+    # end
+    while @turn_count <8 && !win?
       if @turn_count.even?
         actual_input = @player.move
         if validate_move?(actual_input)
