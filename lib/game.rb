@@ -47,8 +47,32 @@ class Game
     make_moves
   end
 
-  def game_win
+  def win?
     while @turn_count <8
+      if combos.include? self.player.marker
+        @turn_count = 9 && print "You win!"
+      elsif combos.include? computer.player.marker
+        @turn_count = 9 && print "You lose!"
+        try_again
+      end
+    end
+  end
+
+  def try_again
+    if @turn_count == 9
+      print "Want to try again? Y/N"
+      input = gets.chomp.to_s
+      if input == "Y"
+        @turn_count = 0
+      end
+    end
+  end
+
+
+
+
+
+
     if @board[0] && @board[3] && @board [6] == "X"
       @turn_count = 9 && print "#{self.player.marker} wins!" && win
     elsif @board[1] && @board[4] && @board [7] == "X" && win
@@ -59,6 +83,10 @@ class Game
       tie_game
     end
   end
+end
+
+def win_combos
+  combos = [[0,3,6],[1,4,7],[2,5,8][0,1,2][3,4,5][6,7,8][0,4,8][2,4,6]]
 end
 
   def tie_game
