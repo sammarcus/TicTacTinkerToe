@@ -50,24 +50,32 @@ class Board
   end
 
   def make_moves
-    if @turn_count.even?
-      actual_input = @player.move
-      if validate_move?(actual_input)
-        position = actual_input.to_i
-        if self.board[position] == "X" || self.board[position] == "O"
-          puts "Space taken"
+    while @turn_count <8
+      if @turn_count.even?
+        actual_input = @player.move
+        if validate_move?(actual_input)
+          position = actual_input.to_i
+          if self.board[position] == "X" || self.board[position] == "O"
+            puts "Space taken"
+          else
+            self.board[position] = @player.marker
+            show_board
+            @turn_count+=1
+          end
         else
-          self.board[position] = @player.marker
-          @turn_count+=1
+          "Please enter a number 0 through 8 that is not in a spot that has already been played."
         end
-      #binding.pry
       else
-        "Please enter a number 0 through 8 that is not in a spot that has already been played."
+        position = self.computer.move
+        if self.board.include?(position)
+          self.board[position.to_i] = @computer.marker
+          puts "FYI Computer played #{position}"
+            show_board
+          @turn_count+=1
+        else
+          @turn_count
+        end
       end
-    else
-      position = self.computer.move
-      self.board[position] = @computer.marker
-      @turn_count+=1
     end
   end
 

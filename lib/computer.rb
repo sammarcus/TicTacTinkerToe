@@ -5,7 +5,7 @@ class Computer
   end
 
   def move
-    random_move = rand(9)
+    random_move = rand(9).to_s
   end
 
 
