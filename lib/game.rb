@@ -74,12 +74,12 @@ class Game
           if combo.include? "X"
             if @computer == "X"
               puts "You lose!"
-            elsif "You win!"
+            elsif puts "You win!"
             end
           elsif combo.include? "O"
             if @computer == "O"
               puts "You lose!"
-            elsif "You win!"
+            elsif puts "You win!"
             end
           end
           return true
@@ -88,7 +88,6 @@ class Game
       false
       # if @turn_count == 8
       tie_game
-      end
     end
   end
 
@@ -102,7 +101,7 @@ class Game
       [@board[6],@board[7],@board[8]],
       [@board[0],@board[4],@board[8]],
       [@board[2],@board[4],@board[6]]]
-    end
+  end
 
   # def try_again
   #   if @turn_count == 9
@@ -153,13 +152,12 @@ class Game
         end
       end
     end
-  end
 
-  def validate_move?(actual_input)
-    if self.board.include?(actual_input)
-      true
+    def validate_move?(actual_input)
+      if self.board.include?(actual_input)
+        true
+      end
     end
+
+
   end
-
-
-end
