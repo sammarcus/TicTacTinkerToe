@@ -8,17 +8,23 @@ class Game
   end
 
   def show_board
+    puts "
+    "
     puts "#{self.board[0]} | #{self.board[1]} | #{self.board[2]}"
-    puts "---------------"
+    puts "-----------"
     puts "#{self.board[3]} | #{self.board[4]} | #{self.board[5]}"
-    puts "---------------"
+    puts "-----------"
     puts "#{self.board[6]} | #{self.board[7]} | #{self.board[8]}"
+    puts "
+    "
   end
 
   def turn_verbiage
-    if @turn_count <= 3
-      puts "Player 1. Enter your move"
-      show_board
+    if @turn_count == 0
+      puts "Let's go! Player 1, enter your move"
+      # show_board
+    elsif @turn_count <= 3
+      puts "Player 1, enter your move"
     elsif @turn_count >= 4
       puts "The game marches forward! Enter your move"
     else
@@ -83,24 +89,24 @@ class Game
         [@board[2],@board[4],@board[6]]]
     end
 
-  def try_again
-    if @turn_count == 9
-      print "Want to try again? Y/N"
-      input = gets.chomp.to_s
-      if input == "Y"
-        @turn_count = 0
-      else
-        print "Thanks for playing."
-      end
-    end
-  end
+  # def try_again
+  #   if @turn_count == 9
+  #     print "Want to try again? Y/N"
+  #     input = gets.chomp.to_s
+  #     if input == "Y"
+  #       @turn_count = 0
+  #     else
+  #       print "Thanks for playing."
+  #     end
+  #   end
+  # end
 
-  def tie_game
-    if @turn_count <=8 && win? == false
-      print "Game is a tie, try again?"
-      try_again
-    end
-  end
+  # def tie_game
+  #   if @turn_count <=8 && win? == false
+  #     print "Game is a tie, try again?"
+  #     try_again
+  #   end
+  # end
 
 
   def make_moves
@@ -124,8 +130,8 @@ class Game
         position = self.computer.move
         if self.board.include?(position)
           self.board[position.to_i] = @computer.marker
-          puts "FYI Computer played #{position}"
-          show_board
+          puts "FYI Computer played position #{position}"
+          # show_board
           @turn_count+=1
         else
           @turn_count
