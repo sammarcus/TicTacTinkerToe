@@ -73,28 +73,35 @@ class Game
         if combo.uniq.count == 1
           if combo.include? "X"
             if @computer == "X"
-            puts "You lose!"
+              puts "You lose!"
             elsif "You win!"
+            end
           elsif combo.include? "O"
-            puts "O wins!"
+            if @computer == "O"
+              puts "You lose!"
+            elsif "You win!"
+            end
           end
           return true
         end
       end
       false
+      # if @turn_count == 8
+      tie_game
+      end
     end
   end
 
-    def win_combos
-      combos = [
-        [@board[0],@board[3],@board[6]],
-        [@board[1],@board[4],@board[7]],
-        [@board[2],@board[5],@board[8]],
-        [@board[0],@board[1],@board[2]],
-        [@board[3],@board[4],@board[5]],
-        [@board[6],@board[7],@board[8]],
-        [@board[0],@board[4],@board[8]],
-        [@board[2],@board[4],@board[6]]]
+  def win_combos
+    combos = [
+      [@board[0],@board[3],@board[6]],
+      [@board[1],@board[4],@board[7]],
+      [@board[2],@board[5],@board[8]],
+      [@board[0],@board[1],@board[2]],
+      [@board[3],@board[4],@board[5]],
+      [@board[6],@board[7],@board[8]],
+      [@board[0],@board[4],@board[8]],
+      [@board[2],@board[4],@board[6]]]
     end
 
   # def try_again
@@ -109,12 +116,12 @@ class Game
   #   end
   # end
 
-  # def tie_game
-  #   if @turn_count <=8 && win? == false
-  #     print "Game is a tie, try again?"
-  #     try_again
-  #   end
-  # end
+  def tie_game
+    if @turn_count == 8 && win? == false
+      print "Game is a tie, try again?"
+      try_again
+    end
+  end
 
 
   def make_moves
