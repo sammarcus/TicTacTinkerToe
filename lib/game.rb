@@ -7,7 +7,6 @@ class Game
     assign_computer
   end
 
-
   def show_board
     puts "#{self.board[0]} | #{self.board[1]} | #{self.board[2]}"
     puts "---------------"
@@ -19,6 +18,7 @@ class Game
   def turn_verbiage
     if @turn_count <= 3
       puts "Player 1. Enter your move"
+      show_board
     elsif @turn_count >= 4
       puts "The game marches forward! Enter your move"
     else
@@ -26,18 +26,15 @@ class Game
     end
   end
 
-
   def get_player_marker
     puts "Welcome to TicTacToe. Are you X or O?"
     marker_input = gets.chomp
-
     if validate_marker?(marker_input)
       @player = Player.new(marker_input)
     else
       puts "Error, please enter either X or O"
       get_player_marker #loop
     end
-
   end
 
   def validate_marker?(marker)
@@ -74,7 +71,6 @@ class Game
     end
   end
 
-
     def win_combos
       combos = [
         [@board[0],@board[3],@board[6]],
@@ -87,24 +83,24 @@ class Game
         [@board[2],@board[4],@board[6]]]
     end
 
-  # def try_again
-  #   if @turn_count == 9
-  #     print "Want to try again? Y/N"
-  #     input = gets.chomp.to_s
-  #     if input == "Y"
-  #       @turn_count = 0
-  #     else
-  #       print "Thanks for playing."
-  #     end
-  #   end
-  # end
+  def try_again
+    if @turn_count == 9
+      print "Want to try again? Y/N"
+      input = gets.chomp.to_s
+      if input == "Y"
+        @turn_count = 0
+      else
+        print "Thanks for playing."
+      end
+    end
+  end
 
-
-
-  # def tie_game
-  #   if @turn_count <=8 && win? == false
-  #   end
-  # end
+  def tie_game
+    if @turn_count <=8 && win? == false
+      print "Game is a tie, try again?"
+      try_again
+    end
+  end
 
 
   def make_moves
