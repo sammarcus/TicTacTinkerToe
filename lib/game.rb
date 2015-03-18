@@ -36,6 +36,12 @@ class Game
     puts "Welcome to TicTacToe. Are you X or O?"
     marker_input = gets.chomp
     if validate_marker?(marker_input)
+      while marker_input == "x"
+        marker_input = "X"
+      end
+      while marker_input == "o"
+        marker_input = "O"
+      end
       @player = Player.new(marker_input)
     else
       puts "Error, please enter either X or O"
@@ -44,7 +50,7 @@ class Game
   end
 
   def validate_marker?(marker)
-    if marker == "X" || marker == "O"
+    if marker == "X" || marker == "O" || marker == "x" || marker == "o"
       true
     end
   end
@@ -66,7 +72,9 @@ class Game
       win_combos.each do |combo|
         if combo.uniq.count == 1
           if combo.include? "X"
-            puts "X wins!"
+            if @computer == "X"
+            puts "You lose!"
+            elsif "You win!"
           elsif combo.include? "O"
             puts "O wins!"
           end
