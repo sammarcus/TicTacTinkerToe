@@ -120,7 +120,7 @@ class Game
             puts "Space taken"
           else
             self.board[position] = @player.marker
-            show_board
+            # show_board
             @turn_count+=1
           end
         else
@@ -131,7 +131,7 @@ class Game
         if self.board.include?(position)
           self.board[position.to_i] = @computer.marker
           puts "FYI Computer played position #{position}"
-          # show_board
+          show_board
           @turn_count+=1
         else
           @turn_count
