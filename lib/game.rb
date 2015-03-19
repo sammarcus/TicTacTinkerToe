@@ -1,5 +1,6 @@
 class Game
   attr_accessor :board, :player, :computer, :turn_count
+
   def initialize
     @board = ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
     @turn_count = 0
@@ -22,7 +23,7 @@ class Game
   def turn_verbiage
     if @turn_count == 0
       puts "Let's go! Player 1, enter your move"
-      # show_board
+      show_board
     elsif @turn_count <= 3
       puts "Player 1, enter your move"
     elsif @turn_count >= 4
@@ -34,14 +35,8 @@ class Game
 
   def get_player_marker
     puts "Welcome to TicTacToe. Are you X or O?"
-    marker_input = gets.chomp
+    marker_input = gets.chomp.upcase
     if validate_marker?(marker_input)
-      while marker_input == "x"
-        marker_input = "X"
-      end
-      while marker_input == "o"
-        marker_input = "O"
-      end
       @player = Player.new(marker_input)
     else
       puts "Error, please enter either X or O"
@@ -65,61 +60,72 @@ class Game
 
   def play
     make_moves
+    binding.pry
+      if win? == true || tie_game? == true
+        tie_game?
+        try_again
+      end
   end
+
+  def try_again
+    if @turn_count >= 8
+      print "Want to try again? Y/N"
+      input = gets.chomp.to_s.upcase
+      if input == "Y"
+        @turn_count = 0
+        play
+      else
+        print "Thanks for playing."
+      end
+    end
+  end
+
 
   def win?
     if @turn_count >= 5
       win_combos.each do |combo|
         if combo.uniq.count == 1
+              # binding.pry
           if combo.include? "X"
-            if @computer == "X"
+            puts "X Wins!"
+            if @computer.marker == "X"
               puts "You lose!"
-            elsif puts "You win!"
+            elsif
+              puts "You win!"
             end
           elsif combo.include? "O"
-            if @computer == "O"
-              puts "You lose!"
-            elsif puts "You win!"
+            puts "O Wins!!"
+            if @computer.marker == "O"
+              puts "You lose!!"
+            elsif
+              puts "You win!!!!!!!!!!!"
             end
           end
           return true
         end
       end
       false
-      # if @turn_count == 8
-      tie_game
     end
   end
 
-  def win_combos
-    combos = [
-      [@board[0],@board[3],@board[6]],
-      [@board[1],@board[4],@board[7]],
-      [@board[2],@board[5],@board[8]],
-      [@board[0],@board[1],@board[2]],
-      [@board[3],@board[4],@board[5]],
-      [@board[6],@board[7],@board[8]],
-      [@board[0],@board[4],@board[8]],
-      [@board[2],@board[4],@board[6]]]
-  end
-
-  # def try_again
-  #   if @turn_count == 9
-  #     print "Want to try again? Y/N"
-  #     input = gets.chomp.to_s
-  #     if input == "Y"
-  #       @turn_count = 0
-  #     else
-  #       print "Thanks for playing."
-  #     end
-  #   end
-  # end
-
-  def tie_game
-    if @turn_count == 8 && win? == false
-      print "Game is a tie, try again?"
-      try_again
+    def win_combos
+      combos = [
+        [@board[0],@board[3],@board[6]],
+        [@board[1],@board[4],@board[7]],
+        [@board[2],@board[5],@board[8]],
+        [@board[0],@board[1],@board[2]],
+        [@board[3],@board[4],@board[5]],
+        [@board[6],@board[7],@board[8]],
+        [@board[0],@board[4],@board[8]],
+        [@board[2],@board[4],@board[6]]]
     end
+
+  def tie_game?
+    if @turn_count > 8 && !win?
+      print "Game is a tie."
+      return true
+    end
+    false
   end
 
 
@@ -152,12 +158,14 @@ class Game
         end
       end
     end
-
-    def validate_move?(actual_input)
-      if self.board.include?(actual_input)
-        true
-      end
-    end
-
-
   end
+
+
+  def validate_move?(actual_input)
+    if self.board.include?(actual_input)
+      true
+    end
+  end
+
+end
+
