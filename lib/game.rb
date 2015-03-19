@@ -69,10 +69,11 @@ class Game
 
   def try_again
     if @turn_count >= 8
-      print "Want to try again? Y/N"
+      print "Want to try again? Y/N
+      "
       input = gets.chomp.to_s.upcase
       if input == "Y"
-        @turn_count = 0
+        Game.new
         play
       else
         print "Thanks for playing."
