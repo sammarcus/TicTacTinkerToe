@@ -64,21 +64,23 @@ class Game
       if win? == true || tie_game? == true
         tie_game?
         try_again
+      elsif win? == true || tie_game? == false
+        win_verbiage
       end
   end
 
   def try_again
-    if @turn_count >= 8
       print "Want to try again? Y/N
       "
       input = gets.chomp.to_s.upcase
       if input == "Y"
+        self.board = Game.new.board
+        self.turn_count = Game.new.turn_count
         Game.new
         play
       else
         print "Thanks for playing."
       end
-    end
   end
 
 
@@ -86,28 +88,31 @@ class Game
     if @turn_count >= 5
       win_combos.each do |combo|
         if combo.uniq.count == 1
-              # binding.pry
-          if combo.include? "X"
-            puts "X Wins!"
-            if @computer.marker == "X"
-              puts "You lose!"
-            elsif
-              puts "You win!"
-            end
-          elsif combo.include? "O"
-            puts "O Wins!!"
-            if @computer.marker == "O"
-              puts "You lose!!"
-            elsif
-              puts "You win!!!!!!!!!!!"
-            end
-          end
+        elsif combo.include? "O"
           return true
         end
       end
       false
     end
   end
+
+  def win_verbiage
+    if combo.include? "X"
+      puts "X Wins!"
+      if @computer.marker == "X"
+        puts "You lose!"
+      elsif
+        puts "You win!"
+      end
+    elsif combo.include? "O"
+      puts "O Wins!!"
+      if @computer.marker == "O"
+        puts "You lose!!"
+        elsif
+          puts "You win!!"
+          end
+        end
+      end
 
     def win_combos
       combos = [
@@ -131,7 +136,8 @@ class Game
 
 
   def make_moves
-    while @turn_count <9 && !win?
+    binding.pry
+    while @turn_count <= 9 && !win?
       if @turn_count.even?
         turn_verbiage
         actual_input = @player.move
@@ -142,7 +148,7 @@ class Game
           else
             self.board[position] = @player.marker
             # show_board
-            @turn_count+=1
+            @turn_count += 1
           end
         else
           puts "Please enter a number 0 through 8 that is not in a spot that has already been played."
@@ -153,7 +159,7 @@ class Game
           self.board[position.to_i] = @computer.marker
           puts "FYI Computer played position #{position}"
           show_board
-          @turn_count+=1
+          @turn_count += 1
         else
           @turn_count
         end
