@@ -26,10 +26,10 @@ class Game
       show_board
     elsif @turn_count <= 3
       puts "Player 1, enter your move"
-    elsif @turn_count >= 4
+    elsif @turn_count >= 4 && @turn_count <6
       puts "The game marches forward! Enter your move"
-    else
-      puts "Things are really getting heated Enter your move"
+    elsif @turn_count >= 6 && @turn_count <9
+      puts "Things are really getting heated! Enter your move"
     end
   end
 
@@ -60,27 +60,24 @@ class Game
 
   def play
     make_moves
-    binding.pry
-      if win? == true || tie_game? == true
-        tie_game?
-        try_again
-      elsif win? == true || tie_game? == false
-        win_verbiage
-      end
+    show_board
+    if win?
+      win_verbiage
+      try_again
+    else
+      tie_game_verbiage
+      try_again
+    end
   end
 
   def try_again
-      print "Want to try again? Y/N
-      "
-      input = gets.chomp.to_s.upcase
-      if input == "Y"
-        self.board = Game.new.board
-        self.turn_count = Game.new.turn_count
-        Game.new
-        play
-      else
-        print "Thanks for playing."
-      end
+    puts "Want to try again? Y/N"
+    input = gets.chomp.upcase
+    if input == "Y"
+      Game.new.play
+    else
+      puts "Thanks for playing."
+    end
   end
 
 
@@ -88,31 +85,42 @@ class Game
     if @turn_count >= 5
       win_combos.each do |combo|
         if combo.uniq.count == 1
-        elsif combo.include? "O"
           return true
         end
       end
-      false
+    end
+    false
+  end
+
+
+  def win_marker
+    if @turn_count >= 5
+      win_combos.each do |combo|
+        if combo.uniq.count == 1
+          return combo.first
+        end
+      end
     end
   end
 
+
   def win_verbiage
-    if combo.include? "X"
+    if win_marker == "X"
       puts "X Wins!"
       if @computer.marker == "X"
         puts "You lose!"
       elsif
         puts "You win!"
       end
-    elsif combo.include? "O"
+    elsif win_marker == "O"
       puts "O Wins!!"
       if @computer.marker == "O"
         puts "You lose!!"
-        elsif
-          puts "You win!!"
-          end
-        end
+      elsif
+        puts "You win!!"
       end
+    end
+  end
 
     def win_combos
       combos = [
@@ -126,18 +134,14 @@ class Game
         [@board[2],@board[4],@board[6]]]
     end
 
-  def tie_game?
-    if @turn_count > 8 && !win?
+  def tie_game_verbiage
+    if !win?
       print "Game is a tie."
-      return true
     end
-    false
   end
 
-
   def make_moves
-    binding.pry
-    while @turn_count <= 9 && !win?
+    while @turn_count <= 8 && !win?
       if @turn_count.even?
         turn_verbiage
         actual_input = @player.move
@@ -147,7 +151,6 @@ class Game
             puts "Space taken"
           else
             self.board[position] = @player.marker
-            # show_board
             @turn_count += 1
           end
         else
@@ -166,7 +169,6 @@ class Game
       end
     end
   end
-
 
   def validate_move?(actual_input)
     if self.board.include?(actual_input)
